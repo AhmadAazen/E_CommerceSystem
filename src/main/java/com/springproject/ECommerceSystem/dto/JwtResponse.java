@@ -1,17 +1,18 @@
 package com.springproject.ECommerceSystem.dto;
 
 import java.util.List;
+import java.util.Set;
 
 public class JwtResponse {
 	 private String token;
 	    private String type = "Bearer";
-	    private Long id;
+//	    private Long id;
 	    private String username;
-	    private List<String> roles;
+	    private Set<String> roles;
 
-	    public JwtResponse(String token, Long id, String username, List<String> roles) {
+	    public JwtResponse(String token, String username, Set<String> roles) {
 	        this.token = token;
-	        this.id = id;
+//	        this.id = id;
 	        this.username = username;
 	        this.roles = roles;
 	    }
@@ -31,12 +32,12 @@ public class JwtResponse {
 	    	this.type = type; 
 	    	}
 
-	    public Long getId() {
-	    	return id; 
-	    	}
-	    public void setId(Long id) { 
-	    	this.id = id; 
-	    	}
+//	    public Long getId() {
+//	    	return id; 
+//	    	}
+//	    public void setId(Long id) { 
+//	    	this.id = id; 
+//	    	}
 
 	    public String getUsername() {
 	    	return username; 
@@ -45,10 +46,10 @@ public class JwtResponse {
 	    	this.username = username; 
 	    	}
 
-	    public List<String> getRoles() { 
+	    public Set<String> getRoles() { 
 	    	return roles; 
 	    	}
-	    public void setRoles(List<String> roles) {
+	    public void setRoles(Set<String> roles) {
 	    	this.roles = roles; 
 	    	}
 }
