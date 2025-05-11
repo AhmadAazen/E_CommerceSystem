@@ -12,7 +12,28 @@ public class AppExceptionHandler {
 	public ResponseEntity<ExceptionInfo> handleUserAlreadyExistsException(UserAlreadyExistsException uaee){
 		ExceptionInfo exception = new ExceptionInfo();
 		exception.setMessage(uaee.getMessage());
-		exception.setCode("123456");
-		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.INTERNAL_SERVER_ERROR);
+		exception.setCode("400");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(value= CategoryNotFoundException.class)
+	public ResponseEntity<ExceptionInfo> handleCategoryNotFoundException(CategoryNotFoundException cnfe){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(cnfe.getMessage());
+		exception.setCode("404");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(value= ProductAlreadyExistsException.class)
+	public ResponseEntity<ExceptionInfo> handleProductAlreadyExistsException(ProductAlreadyExistsException paee){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(paee.getMessage());
+		exception.setCode("400");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(value= ProductNotFoundException.class)
+	public ResponseEntity<ExceptionInfo> handleProductNotFoundException(ProductNotFoundException pnfe){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(pnfe.getMessage());
+		exception.setCode("404");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
 	}
 }

@@ -49,6 +49,7 @@ public class AuthController {
 		);
 		return new ResponseEntity<String>("UserEnteredSuccessfully",HttpStatus.CREATED);
 	}
+	
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
 		org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(

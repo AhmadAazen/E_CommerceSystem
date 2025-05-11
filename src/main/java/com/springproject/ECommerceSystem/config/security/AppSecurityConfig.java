@@ -3,8 +3,10 @@ package com.springproject.ECommerceSystem.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class AppSecurityConfig {
 	
 	@Autowired
@@ -23,7 +26,7 @@ public class AppSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -34,6 +37,13 @@ public class AppSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
             		 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+            		 .requestMatchers(HttpMethod.POST,"/api/categories/**").hasRole("ADMIN")
+            		 .requestMatchers(HttpMethod.POST,"/api/products/**").hasRole("ADMIN")
+            		 .requestMatchers(HttpMethod.PUT,"/api/categories/**").hasRole("ADMIN")
+            		 .requestMatchers(HttpMethod.PUT,"/api/products/**").hasRole("ADMIN")
+            		 .requestMatchers(HttpMethod.DELETE,"/api/categories/**").hasRole("ADMIN")
+            		 .requestMatchers(HttpMethod.DELETE,"/api/products/**").hasRole("ADMIN")
+
                      .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
