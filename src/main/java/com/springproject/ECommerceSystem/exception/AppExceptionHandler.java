@@ -2,6 +2,7 @@ package com.springproject.ECommerceSystem.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -55,6 +56,20 @@ public class AppExceptionHandler {
 		ExceptionInfo exception = new ExceptionInfo();
 		exception.setMessage(onfe.getMessage());
 		exception.setCode("404");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(value= AccessDeniedException.class)
+	public ResponseEntity<ExceptionInfo> handleAccessDeniedException(AccessDeniedException ade){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(ade.getMessage());
+		exception.setCode("403");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(value= IllegalStateException.class)
+	public ResponseEntity<ExceptionInfo> handleIllegalStateException(IllegalStateException ise){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(ise.getMessage());
+		exception.setCode("403");
 		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
 	}
 }

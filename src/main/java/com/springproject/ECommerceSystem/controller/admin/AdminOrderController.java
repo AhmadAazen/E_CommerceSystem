@@ -36,4 +36,9 @@ public class AdminOrderController {
 	public ResponseEntity<List<Order>> getAllOrders(){
 		return ResponseEntity.ok(orderService.getAllOrders());
 	}
+	@PutMapping("/cancel/{orderId}")
+	public ResponseEntity<String> cancelOrderAsAdmin(@PathVariable Long orderId){
+		orderService.cancelOrder(null, orderId,true);
+		return ResponseEntity.ok("Order cancelled successfully by admin");
+	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import com.springproject.ECommerceSystem.dto.OrderItemResponse;
@@ -105,6 +106,19 @@ public class OrderService {
 			orderResponses.add(response);
 		}
 		return orderResponses;
+	}
+	public void cancelOrder(Long userId,Long orderId,Boolean isAdmin) {
+		Order order = orderRepository.findById(orderId).orElseThrow(()-> new OrderNotFoundException("Order does not exist with id: "+orderId));
+		if(!isAdmin) {
+			if(!order.getUser().getId().equals(userId)) {
+			throw new AccessDeniedException("You are unauthorized to cancel this product");
+			}
+		}
+		if(order.getOrderStatus()==OrderStatus.SHIPPED||order.getOrderStatus()==OrderStatus.DELIVERED) {
+			throw new IllegalStateException("You cannot cancel it now");
+		}
+		order.setOrderStatus(OrderStatus.CANCELLED);
+		orderRepository.save(order);
 	}
 	private OrderResponse mapToOrderResponse(Order order) {
 		OrderResponse orderResponse = new OrderResponse();
