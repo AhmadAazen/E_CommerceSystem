@@ -55,7 +55,7 @@ public class ProductService {
 			product.setPrice(productRequest.getPrice());
 		}
 		if(productRequest.getQuantity()!=null) {
-			product.setQuantity(productRequest.getQuantity());
+			product.setQuantity(product.getQuantity()+productRequest.getQuantity());
 		}
 		if(productRequest.getCategoryId()!=null) {
 			Category updatedCategory = categoryRepository.findById(productRequest.getCategoryId())

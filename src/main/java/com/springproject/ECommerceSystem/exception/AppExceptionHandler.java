@@ -36,4 +36,25 @@ public class AppExceptionHandler {
 		exception.setCode("404");
 		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(value= UserNotFoundException.class)
+	public ResponseEntity<ExceptionInfo> handleUserNotFoundException(UserNotFoundException unfe){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(unfe.getMessage());
+		exception.setCode("404");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(value= CartIsEmptyException.class)
+	public ResponseEntity<ExceptionInfo> handleCartIsEmptyException(CartIsEmptyException ciee){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(ciee.getMessage());
+		exception.setCode("404");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
+	}
+	@ExceptionHandler(value= OrderNotFoundException.class)
+	public ResponseEntity<ExceptionInfo> handleOrderNotFoundException(OrderNotFoundException onfe){
+		ExceptionInfo exception = new ExceptionInfo();
+		exception.setMessage(onfe.getMessage());
+		exception.setCode("404");
+		return new ResponseEntity<ExceptionInfo>(exception,HttpStatus.NOT_FOUND);
+	}
 }

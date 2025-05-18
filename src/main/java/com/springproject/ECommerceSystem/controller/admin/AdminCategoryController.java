@@ -1,4 +1,4 @@
-package com.springproject.ECommerceSystem.controller;
+package com.springproject.ECommerceSystem.controller.admin;
 
 import java.util.List;
 
@@ -19,23 +19,29 @@ import com.springproject.ECommerceSystem.dto.CategoryResponse;
 import com.springproject.ECommerceSystem.service.CategoryService;
 
 @RestController
-@RequestMapping("/api/categories")
-public class CategoryController {
+@RequestMapping("/api/admin/categories")
+@PreAuthorize("hasRole('ADMIN')")
+
+public class AdminCategoryController {
 	private CategoryService categoryService;
 
-	public CategoryController(CategoryService categoryService) {
+	public AdminCategoryController(CategoryService categoryService) {
 		super();
 		this.categoryService = categoryService;
 	}
-	@GetMapping("/{id}")
-	public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id){
-		return ResponseEntity.ok(categoryService.getCategoryById(id));
+	
+	@PostMapping
+	public ResponseEntity<CategoryResponse> addCategory(@RequestBody CategoryRequest categoryRequest){
+		return new ResponseEntity<>(categoryService.addCategory(categoryRequest),HttpStatus.CREATED);
 	}
-	@GetMapping()
-	public ResponseEntity<List<CategoryResponse>> getAllCategories(){
-		return ResponseEntity.ok(categoryService.getAllCategories());
+	@PutMapping("/{id}")
+	public ResponseEntity<CategoryResponse> updateCategory(@RequestBody CategoryRequest categoryRequest, @PathVariable Long id){
+		return new ResponseEntity<>(categoryService.updateCategory(id,categoryRequest),HttpStatus.OK);
 	}
-
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteCategoryById(@PathVariable Long id){
+		return ResponseEntity.ok(categoryService.deleteCategoryById(id));
+	}
 	
 	
 }

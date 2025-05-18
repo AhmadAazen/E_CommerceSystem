@@ -1,4 +1,4 @@
-package com.springproject.ECommerceSystem.controller;
+package com.springproject.ECommerceSystem.controller.admin;
 
 import java.util.List;
 
@@ -19,22 +19,27 @@ import com.springproject.ECommerceSystem.dto.ProductResponse;
 import com.springproject.ECommerceSystem.service.ProductService;
 
 @RestController
-@RequestMapping("/api/products")
-public class ProductController {
+@RequestMapping("/api/admin/products")
+@PreAuthorize("hasRole('ADMIN')")
+
+public class AdminProductController {
 	private ProductService productService;
 
-	public ProductController(ProductService productService) {
+	public AdminProductController(ProductService productService) {
 		super();
 		this.productService = productService;
 	}
-	
-	@GetMapping
-	public ResponseEntity<List<ProductResponse>> getAllProducts(){
-		return new ResponseEntity<List<ProductResponse>>(productService.getAllProducts(),HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest productRequest){
+		return new ResponseEntity<ProductResponse>(productService.addProduct(productRequest),HttpStatus.CREATED);
 	}
-	@GetMapping("/{id}")
-	public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id){
-		return new ResponseEntity<ProductResponse>(productService.getProductsById(id),HttpStatus.OK);
+	@PutMapping("/{id}")
+	public ResponseEntity<ProductResponse> updateProduct(@RequestBody ProductRequest productRequest,@PathVariable Long id){
+		return new ResponseEntity<ProductResponse>(productService.updateProduct(id,productRequest),HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteProduct(@PathVariable Long id){
+		return new ResponseEntity<>(productService.deleteProductById(id),HttpStatus.OK);
+	}
 }

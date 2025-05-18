@@ -37,14 +37,10 @@ public class AppSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
             		 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
-            		 .requestMatchers(HttpMethod.POST,"/api/categories/**").hasRole("ADMIN")
-            		 .requestMatchers(HttpMethod.POST,"/api/products/**").hasRole("ADMIN")
-            		 .requestMatchers(HttpMethod.PUT,"/api/categories/**").hasRole("ADMIN")
-            		 .requestMatchers(HttpMethod.PUT,"/api/products/**").hasRole("ADMIN")
-            		 .requestMatchers(HttpMethod.DELETE,"/api/categories/**").hasRole("ADMIN")
-            		 .requestMatchers(HttpMethod.DELETE,"/api/products/**").hasRole("ADMIN")
-
-                     .anyRequest().authenticated()
+            		 .requestMatchers("/api/admin/**").hasRole("ADMIN")
+            		 .requestMatchers("/api/carts/**").hasRole("USER")
+            		 .requestMatchers("/api/orders/**").hasRole("USER")
+            		 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthTokenFilter, UsernamePasswordAuthenticationFilter.class);
